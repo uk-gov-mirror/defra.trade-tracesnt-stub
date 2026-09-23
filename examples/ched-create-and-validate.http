@@ -1,0 +1,137 @@
+### Create a CHED in the simulator, then validate it.
+#
+# The control API has no read-back endpoint by design — the SOAP face is the only way to read state,
+# so the two cannot drift. The last request here reads the result back through trade-traces-poc,
+# which is the easiest way to see what you built. For raw SOAP, use the Postman collection: the
+# WS-Security PasswordDigest has to be computed per request and a .http file cannot do that.
+#
+# @simulator is the stub's control API — port 3000 in trade-gateway-local-environment, where 8085 is
+# the publisher and will answer a control request with a bare 404. Running the stub on its own
+# (docker compose up in this repo, or dotnet run) it is on 8085 instead.
+
+@simulator = http://localhost:3000
+@poc = http://localhost:8090
+@chedId = CHEDA.XI.2026.0000005
+
+### 1. Create.
+#
+# You state everything a submitter states. The simulator adds only what TRACES adds — display names,
+# registry lookups, schema scaffolding — so this request is the certificate. CHED_TYPE is the one
+# field it cannot be built without.
+
+# @name create
+POST {{simulator}}/control/cheds
+Content-Type: application/json
+
+{
+  "status": "NEW",
+
+  "exchangedDocument": {
+    "includedNote": { "CHED_TYPE": "A" },
+    "declaration": {
+      "actualDateTime": "2026-04-21T11:00:00+01:00",
+      "includedClause": {
+        "PURPOSE": "FREE_CIRCULATION",
+        "GOODS_CERTIFIED_AS": "FATTENING"
+      }
+    }
+  },
+
+  "specifiedConsignment": {
+    "availabilityDueDateTime": "2026-04-23T00:00:00+01:00",
+    "exportCountry": "AF",
+    "importCountry": "XI",
+
+    "consignorParty": {
+      "identifier": "770198",
+      "postalAddress": { "countryId": "XI", "cityName": "Belfast" }
+    },
+    "consigneeParty": {
+      "identifier": "899361",
+      "postalAddress": { "countryId": "XI", "cityName": "Belfast" }
+    },
+
+    "unloadingBaseportLocation": { "identifier": "GBBEL", "countryId": "XI" },
+    "mainCarriageLogisticsTransportMovement": {
+      "modeCode": "3",
+      "identifier": "GH 2357",
+      "schemeId": "road_vehicle_registration_before_bcp"
+    },
+
+    "includedConsignmentItem": {
+      "natureIdCargo": "12",
+      "consignmentTotals": {
+        "grossWeight": { "value": 50, "unitCode": "KGM" },
+        "physicalReferencedLogisticsPackage": { "typeCode": "NA", "itemQuantity": 0 }
+      },
+      "includedTradeLineItem": [
+        {
+          "applicableClassification": { "CN": "0101" },
+          "originCountry": "AF",
+          "scientificName": "Bison",
+          "netWeight": { "value": 900, "unitCode": "KGM" },
+          "physicalReferencedLogisticsPackage": { "typeCode": "BX", "itemQuantity": 1 }
+        }
+      ]
+    }
+  }
+}
+
+### 2. Validate it.
+#
+# A decision is a PATCH, not a resubmission. Notes and clauses are objects keyed by their code, so
+# this merges into what is stored and the applicant's declaration above survives untouched.
+
+# @name validate
+PATCH {{simulator}}/control/cheds/{{chedId}}
+Content-Type: application/json
+
+{
+  "status": "VALIDATED",
+  "exchangedDocument": {
+    "clearance": {
+      "actualDateTime": "2026-04-23T10:00:00+01:00",
+      "includedClause": {
+        "DECISION_CONCLUSION": "ACCEPTABLE_FOR_FREE_CIRCULATION",
+        "DOCUMENTARY_CHECK": "YES",
+        "DOCUMENTARY_CHECK_RESULT": "SATISFACTORY",
+        "IDENTITY_CHECK": "YES",
+        "IDENTITY_CHECK_RESULT": "SATISFACTORY",
+        "PHYSICAL_CHECK": "YES",
+        "PHYSICAL_CHECK_RESULT": "SATISFACTORY"
+      }
+    }
+  }
+}
+
+### 3. Read it back.
+#
+# Needs trade-traces-poc running, pointed at the simulator. Expect status "Issued (Validated)", the
+# consignor named from the operator registry, and every clause carrying the display text beside its
+# code — none of which was in the two requests above.
+
+# @name read
+GET {{poc}}/simulator/ched/{{chedId}}
+Accept: application/json
+
+### The same thing in a browser, rendered.
+
+GET {{poc}}/simulator/ched/{{chedId}}?format=html
+
+### Amend one check result, without restating the decision.
+
+# @name amend
+PATCH {{simulator}}/control/cheds/{{chedId}}
+Content-Type: application/json
+
+{
+  "exchangedDocument": {
+    "clearance": {
+      "includedClause": { "PHYSICAL_CHECK_RESULT": "NOT_SATISFACTORY" }
+    }
+  }
+}
+
+### Tidy up.
+
+DELETE {{simulator}}/control/cheds/{{chedId}}

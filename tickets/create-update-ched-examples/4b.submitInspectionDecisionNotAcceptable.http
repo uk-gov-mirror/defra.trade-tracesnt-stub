@@ -1,0 +1,312 @@
+@api_HostAddress = http://localhost:5000
+@CCA = bodyIdentifier=XI0000EGjaSr&bodyIdentifierType=AuthorityActivityAccessIdentifier 
+@chedId = CHEDA.XI.2026.0000045
+
+# @name signDecision
+POST {{api_HostAddress}}/ched/{{@chedId}}/decision?{{CCA}}
+Content-Type: application/xml
+
+<?xml version='1.0' encoding='UTF-8'?>
+<sps:SPSCertificate xmlns:ns0="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.w3.org/2001/XMLSchema-instance" xmlns:rbe="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:21" xmlns:sps="urn:un:unece:uncefact:data:standard:SPSCertificate:17" xmlns:udt="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:21">
+    <sps:SPSExchangedDocument>
+        <rbe:Name languageID="en">CHED-A - Common Health Entry Document for Animal</rbe:Name>
+        <rbe:ID>{{chedId}}</rbe:ID>
+        <rbe:TypeCode>636</rbe:TypeCode>
+        <rbe:StatusCode>42</rbe:StatusCode>
+        <rbe:IssueDateTime>
+            <udt:DateTime>2026-04-24T09:15:00+01:00</udt:DateTime>
+        </rbe:IssueDateTime>
+       
+        <rbe:IncludedSPSNote>
+          <rbe:ContentCode>A</rbe:ContentCode>
+          <rbe:Content/>
+          <rbe:SubjectCode>CHED_TYPE</rbe:SubjectCode>
+        </rbe:IncludedSPSNote>
+       
+        <rbe:IncludedSPSNote>
+          <rbe:ContentCode listID="ched_not_acceptable_measure">DESTRUCTION</rbe:ContentCode>
+          <rbe:Content/>
+          <rbe:SubjectCode>NOT_ACCEPTABLE_MEASURE</rbe:SubjectCode>
+        </rbe:IncludedSPSNote>
+        <rbe:IncludedSPSNote>
+          <rbe:ContentCode listID="refusal_reason">UNSUITABLE_MEANS_TRANSPORT</rbe:ContentCode>
+          <rbe:Content/>
+          <rbe:SubjectCode>REFUSAL_REASON</rbe:SubjectCode>
+        </rbe:IncludedSPSNote>
+        <rbe:IncludedSPSNote>
+          <rbe:ContentCode listID="refusal_reason">MISSING_CERTIFICATE</rbe:ContentCode>
+          <rbe:Content/>
+          <rbe:SubjectCode>REFUSAL_REASON</rbe:SubjectCode>
+        </rbe:IncludedSPSNote>
+
+        
+        <rbe:IncludedSPSNote>
+          <rbe:Content>0</rbe:Content>
+          <rbe:SubjectCode>LABORATORY_TESTS_COMMODITIES_TOTAL</rbe:SubjectCode>
+        </rbe:IncludedSPSNote>
+        <rbe:IncludedSPSNote>
+          <rbe:Content>0</rbe:Content>
+          <rbe:SubjectCode>LABORATORY_TESTS_COMMODITIES_SATISFACTORY</rbe:SubjectCode>
+        </rbe:IncludedSPSNote>
+        <rbe:IncludedSPSNote>
+          <rbe:Content>0</rbe:Content>
+          <rbe:SubjectCode>LABORATORY_TESTS_COMMODITIES_NOT_SATISFACTORY</rbe:SubjectCode>
+        </rbe:IncludedSPSNote>
+        <rbe:IncludedSPSNote>
+          <rbe:Content>0</rbe:Content>
+          <rbe:SubjectCode>LABORATORY_TESTS_COMMODITIES_PENDING</rbe:SubjectCode>
+        </rbe:IncludedSPSNote>
+        <rbe:IncludedSPSNote>
+          <rbe:ContentCode>NO</rbe:ContentCode>
+          <rbe:Content />
+          <rbe:SubjectCode>NON_COMPLIANCE_DETAILS_PRESENT</rbe:SubjectCode>
+        </rbe:IncludedSPSNote>
+
+        <rbe:ReferenceSPSReferencedDocument>
+            <rbe:TypeCode listID="1001" listVersionID="D16B" name="Health certificate (Health certificate)">636</rbe:TypeCode>
+            <rbe:RelationshipTypeCode listID="1153_ReferenceTypeCode" listVersionID="D16B" name="Mutually defined reference number (Supporting document)">ZZZ</rbe:RelationshipTypeCode>
+            <rbe:ID schemeAgencyID="AL">123456</rbe:ID>
+            <rbe:AttachmentBinaryObject uri="uri:documentid:775548" filename="document.pdf"/>
+        </rbe:ReferenceSPSReferencedDocument>
+        <rbe:ReferenceSPSReferencedDocument>
+            <rbe:TypeCode>636</rbe:TypeCode>
+            <rbe:RelationshipTypeCode >CAW</rbe:RelationshipTypeCode>
+            <rbe:ID>{{chedId}}</rbe:ID>
+            <rbe:AttachmentBinaryObject format="url" mimeCode="text/url" uri="https://webgate.acceptance.ec.europa.eu/tracesnt/certificate/ched/CHEDA.XI.2026.0000036"/>
+        </rbe:ReferenceSPSReferencedDocument>
+
+
+        <rbe:SignatorySPSAuthentication>
+            <rbe:TypeCode name="Inspection (Identification of Applicant)">4</rbe:TypeCode>
+            <rbe:ActualDateTime>
+                <udt:DateTime>2026-04-21T11:00:00+01:00</udt:DateTime>
+            </rbe:ActualDateTime>
+            <rbe:ProviderSPSParty>
+                <rbe:Name/>
+            </rbe:ProviderSPSParty>
+            
+            <rbe:IncludedSPSClause>
+                <rbe:ID>PURPOSE</rbe:ID>
+                <rbe:Content>FREE_CIRCULATION</rbe:Content>
+            </rbe:IncludedSPSClause>
+            <rbe:IncludedSPSClause>
+                <rbe:ID>GOODS_CERTIFIED_AS</rbe:ID>
+                <rbe:Content>FATTENING</rbe:Content>
+            </rbe:IncludedSPSClause>
+            
+        </rbe:SignatorySPSAuthentication>
+
+
+        <rbe:SignatorySPSAuthentication>
+          <rbe:TypeCode name="Clearance (Official inspector)">1</rbe:TypeCode>
+          <rbe:ActualDateTime>
+              <udt:DateTime xmlns="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:21">2026-04-23T10:00:00+01:00</udt:DateTime>
+          </rbe:ActualDateTime>
+          <rbe:ProviderSPSParty>
+              <rbe:Name/>
+          </rbe:ProviderSPSParty>
+          <rbe:IncludedSPSClause>
+              <rbe:ID>DECISION_CONCLUSION</rbe:ID>
+              <rbe:Content>NOT_ACCEPTABLE</rbe:Content>
+          </rbe:IncludedSPSClause>
+          <rbe:IncludedSPSClause>
+              <rbe:ID>DOCUMENTARY_CHECK</rbe:ID>
+              <rbe:Content>YES</rbe:Content>
+          </rbe:IncludedSPSClause>
+          <rbe:IncludedSPSClause>
+              <rbe:ID>DOCUMENTARY_CHECK_RESULT</rbe:ID>
+              <rbe:Content>NOT_SATISFACTORY</rbe:Content>
+          </rbe:IncludedSPSClause>
+          <rbe:IncludedSPSClause>
+              <rbe:ID>DOCUMENTARY_CHECK_RESULT_NATIONAL</rbe:ID>
+              <rbe:Content>NOT_SATISFACTORY</rbe:Content>
+          </rbe:IncludedSPSClause>
+          <rbe:IncludedSPSClause>
+              <rbe:ID>IDENTITY_CHECK</rbe:ID>
+              <rbe:Content>YES</rbe:Content>
+          </rbe:IncludedSPSClause>
+          <rbe:IncludedSPSClause>
+              <rbe:ID>IDENTITY_CHECK_RESULT</rbe:ID>
+              <rbe:Content>NOT_SATISFACTORY</rbe:Content>
+          </rbe:IncludedSPSClause>
+          <rbe:IncludedSPSClause>
+              <rbe:ID>PHYSICAL_CHECK</rbe:ID>
+              <rbe:Content>YES</rbe:Content>
+          </rbe:IncludedSPSClause>
+          <rbe:IncludedSPSClause>
+              <rbe:ID>PHYSICAL_CHECK_RESULT</rbe:ID>
+              <rbe:Content>NOT_SATISFACTORY</rbe:Content>
+          </rbe:IncludedSPSClause>
+          <rbe:IncludedSPSClause>
+              <rbe:ID>WELFARE_CHECK</rbe:ID>
+              <rbe:Content>YES</rbe:Content>
+          </rbe:IncludedSPSClause>
+          <rbe:IncludedSPSClause>
+              <rbe:ID>WELFARE_CHECK_RESULT</rbe:ID>
+              <rbe:Content>NOT_SATISFACTORY</rbe:Content>
+          </rbe:IncludedSPSClause>
+          <rbe:IncludedSPSClause>
+              <rbe:ID>TOTAL_ANIMALS_CHECKED</rbe:ID>
+              <rbe:Content>1</rbe:Content>
+          </rbe:IncludedSPSClause>
+          <rbe:IncludedSPSClause>
+              <rbe:ID>DEAD_ANIMALS</rbe:ID>
+              <rbe:Content>0</rbe:Content>
+          </rbe:IncludedSPSClause>
+          <rbe:IncludedSPSClause>
+              <rbe:ID>DEAD_ANIMALS_COUNT_TYPE</rbe:ID>
+              <rbe:Content>ACCURATE</rbe:Content>
+          </rbe:IncludedSPSClause>
+          <rbe:IncludedSPSClause>
+              <rbe:ID>UNFIT_ANIMALS</rbe:ID>
+              <rbe:Content>0</rbe:Content>
+          </rbe:IncludedSPSClause>
+          <rbe:IncludedSPSClause>
+              <rbe:ID>UNFIT_ANIMALS_COUNT_TYPE</rbe:ID>
+              <rbe:Content>ACCURATE</rbe:Content>
+          </rbe:IncludedSPSClause>
+          <rbe:IncludedSPSClause>
+              <rbe:ID>BIRTH_OR_ABORTIONS</rbe:ID>
+              <rbe:Content>0</rbe:Content>
+          </rbe:IncludedSPSClause>
+          <rbe:IncludedSPSClause>
+              <rbe:ID>COI_CHECKED</rbe:ID>
+              <rbe:Content>NO</rbe:Content>
+          </rbe:IncludedSPSClause>
+
+      </rbe:SignatorySPSAuthentication>
+
+    </sps:SPSExchangedDocument>
+   <sps:SPSConsignment>
+        <rbe:AvailabilityDueDateTime>
+            <udt:DateTime>2026-04-24T08:00:00+01:00</udt:DateTime>
+        </rbe:AvailabilityDueDateTime>
+        <rbe:ConsignorSPSParty>
+            <rbe:ID schemeID="operator_internal_activity_id">899361</rbe:ID>
+            <rbe:Name />
+            <rbe:SpecifiedSPSAddress>
+                <rbe:PostcodeCode>BT9</rbe:PostcodeCode>
+                <rbe:LineOne>Test Street 876</rbe:LineOne>
+                <rbe:CityName languageID="en">Belfast</rbe:CityName>
+                <rbe:CountryID>XI</rbe:CountryID>
+                <rbe:CountryName languageID="en">United Kingdom (Northern Ireland)</rbe:CountryName>
+                <rbe:CountrySubDivisionName languageID="en">County Antrim</rbe:CountrySubDivisionName>
+            </rbe:SpecifiedSPSAddress>
+        </rbe:ConsignorSPSParty>
+        <rbe:ConsigneeSPSParty>
+            <rbe:ID schemeID="operator_internal_activity_id">899361</rbe:ID>
+            <rbe:Name />
+            <rbe:SpecifiedSPSAddress>
+                <rbe:PostcodeCode>BT9</rbe:PostcodeCode>
+                <rbe:LineOne>Test Street 876</rbe:LineOne>
+                <rbe:CityName languageID="en">Belfast</rbe:CityName>
+                <rbe:CountryID>XI</rbe:CountryID>
+                <rbe:CountryName languageID="en">United Kingdom (Northern Ireland)</rbe:CountryName>
+                <rbe:CountrySubDivisionName languageID="en">County Antrim</rbe:CountrySubDivisionName>
+            </rbe:SpecifiedSPSAddress>
+        </rbe:ConsigneeSPSParty>
+        <rbe:ExportSPSCountry>
+            <rbe:ID/>
+            <rbe:Name/>
+        </rbe:ExportSPSCountry>
+        <rbe:ImportSPSCountry>
+            <rbe:ID/>
+            <rbe:Name/>
+        </rbe:ImportSPSCountry>
+        <rbe:TransitSPSCountry>
+            <rbe:ID/>
+            <rbe:Name/>
+            <rbe:SubordinateSPSCountrySubDivision>
+                <rbe:Name/>
+                <rbe:HierarchicalLevelCode name="None">0</rbe:HierarchicalLevelCode>
+                <rbe:FunctionTypeCode listID="3227" listVersionID="D16B" name="Goods disposal location, designated">283</rbe:FunctionTypeCode>
+            </rbe:SubordinateSPSCountrySubDivision>
+        </rbe:TransitSPSCountry>
+        <rbe:UnloadingBaseportSPSLocation>
+            <rbe:ID schemeID="un_locode" schemeName="UN/LOCODE" schemeAgencyID="un" schemeAgencyName="United Nations" schemeDataURI="authority_activity">GBBEL</rbe:ID>
+            <rbe:Name>XI</rbe:Name>
+            <rbe:Name languageID="en">County Down</rbe:Name>
+            <rbe:Name>XIBEL1-DAERA</rbe:Name>
+            <rbe:Name>Belfast Port</rbe:Name>
+            <rbe:Name>Belfast City Council 5 Corry Place Belfast Harbour Estate BT3 9HY</rbe:Name>
+            <rbe:Name>GBBEL</rbe:Name>
+        </rbe:UnloadingBaseportSPSLocation>
+        <rbe:ExaminationSPSEvent>
+            <rbe:OccurrenceSPSLocation>
+                <rbe:Name/>
+            </rbe:OccurrenceSPSLocation>
+        </rbe:ExaminationSPSEvent>
+        <rbe:DeliverySPSParty>
+            <rbe:ID schemeID="operator_internal_activity_id">899361</rbe:ID>
+            <rbe:Name />
+            <rbe:SpecifiedSPSAddress>
+                <rbe:PostcodeCode>BT9</rbe:PostcodeCode>
+                <rbe:LineOne>Test Street 876</rbe:LineOne>
+                <rbe:CityName languageID="en">Belfast</rbe:CityName>
+                <rbe:CountryID>XI</rbe:CountryID>
+                <rbe:CountryName languageID="en">United Kingdom (Northern Ireland)</rbe:CountryName>
+                <rbe:CountrySubDivisionName languageID="en">County Antrim</rbe:CountrySubDivisionName>
+            </rbe:SpecifiedSPSAddress>
+        </rbe:DeliverySPSParty>
+        <rbe:CustomsTransitAgentSPSParty>
+            <rbe:ID schemeID="operator_internal_activity_id" schemeName="Operator internal activity ID" schemeAgencyID="ec_sante_traces" schemeAgencyName="European commission - DG SANTE - Traces">883977</rbe:ID>
+            <rbe:Name>TEST</rbe:Name>
+            <rbe:SpecifiedSPSAddress>
+                <rbe:PostcodeCode>1118</rbe:PostcodeCode>
+                <rbe:LineOne>HANDELSKADE 1</rbe:LineOne>
+                <rbe:CityName languageID="en">Schiphol</rbe:CityName>
+                <rbe:CountryID>NL</rbe:CountryID>
+                <rbe:CountryName languageID="en">Netherlands</rbe:CountryName>
+                <rbe:CountrySubDivisionName languageID="en">North Holland</rbe:CountrySubDivisionName>
+            </rbe:SpecifiedSPSAddress>
+        </rbe:CustomsTransitAgentSPSParty>
+        <rbe:MainCarriageSPSTransportMovement>
+            <rbe:ID schemeID="road_vehicle_registration_before_bcp" schemeName="Road vehicle registration (before BCP)" schemeAgencyID="LV" schemeAgencyName="Latvia">GH 2357</rbe:ID>
+            <rbe:ModeCode listID="Recommendation 19" listVersionID="2" name="Road transport">3</rbe:ModeCode>
+        </rbe:MainCarriageSPSTransportMovement>
+        <rbe:IncludedSPSConsignmentItem>
+            <rbe:NatureIdentificationSPSCargo>
+                <rbe:TypeCode listID="7085" listVersionID="D16B" name="General cargo (Commodities)">12</rbe:TypeCode>
+            </rbe:NatureIdentificationSPSCargo>
+            <rbe:IncludedSPSTradeLineItem>
+                <rbe:SequenceNumeric>0</rbe:SequenceNumeric>
+                <rbe:Description>Consignment totals and summary</rbe:Description>
+                <rbe:NetWeightMeasure>0</rbe:NetWeightMeasure>
+                <rbe:GrossWeightMeasure unitCode="KGM">50</rbe:GrossWeightMeasure>
+                <rbe:NetVolumeMeasure unitCode="H87">1</rbe:NetVolumeMeasure>
+                <rbe:PhysicalSPSPackage>
+                    <rbe:LevelCode name="No packaging hierarchy">4</rbe:LevelCode>
+                    <rbe:TypeCode listID="7065" listVersionID="2006">NA</rbe:TypeCode>
+                    <rbe:ItemQuantity>0.0</rbe:ItemQuantity>
+                </rbe:PhysicalSPSPackage>
+            </rbe:IncludedSPSTradeLineItem>
+            <rbe:IncludedSPSTradeLineItem>
+                <rbe:SequenceNumeric>1</rbe:SequenceNumeric>
+                <rbe:Description/>
+                <rbe:ScientificName languageID="la">Bison</rbe:ScientificName>
+                <rbe:NetVolumeMeasure unitCode="H87">1</rbe:NetVolumeMeasure>
+                <rbe:AdditionalInformationSPSNote>
+                    <rbe:Content>BOB</rbe:Content>
+                    <rbe:SubjectCode listID="ched_commodity_note_subject_code" listName="CHED Commodity Note SubjectCode list" name="Individual identification number">INDIVIDUAL_IDENTIFICATION_NUMBER</rbe:SubjectCode>
+                </rbe:AdditionalInformationSPSNote>
+                <rbe:ApplicableSPSClassification>
+                    <rbe:SystemID>CN</rbe:SystemID>
+                    <rbe:SystemName>CN Code (Combined Nomenclature)</rbe:SystemName>
+                    <rbe:ClassCode>0102</rbe:ClassCode>
+                    <rbe:ClassName languageID="en">LIVE ANIMALS</rbe:ClassName>
+                    <rbe:ClassName languageID="en">Live bovine animals</rbe:ClassName>
+                </rbe:ApplicableSPSClassification>
+                <rbe:ApplicableSPSClassification>
+                    <rbe:SystemID>IDENTIFICATION_SYSTEM</rbe:SystemID>
+                    <rbe:SystemName>Identification system</rbe:SystemName>
+                    <rbe:ClassCode>TATTOO</rbe:ClassCode>
+                    <rbe:ClassName languageID="en">Tattoo</rbe:ClassName>
+                </rbe:ApplicableSPSClassification>
+                <rbe:OriginSPSCountry>
+                    <rbe:ID>AD</rbe:ID>
+                    <rbe:Name languageID="en">Andorra</rbe:Name>
+                </rbe:OriginSPSCountry>
+            </rbe:IncludedSPSTradeLineItem>
+        </rbe:IncludedSPSConsignmentItem>
+    </sps:SPSConsignment> 
+</sps:SPSCertificate>

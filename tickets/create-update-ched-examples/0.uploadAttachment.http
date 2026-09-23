@@ -1,0 +1,14 @@
+@api_HostAddress = http://localhost:5000
+//@api_HostAddress = https://ephemeral-protected.api.dev.cdp-int.defra.cloud/trade-traces-poc
+
+# @name uploadAttachment
+POST {{api_HostAddress}}/attachments/
+Content-Type: multipart/form-data; boundary=boundary
+//x-api-key: IF74YkZTWb5w0ah7v226dO9G7GSrRMH5
+
+--boundary
+Content-Disposition: form-data; name="attachment"; filename="document.pdf"
+Content-Type: application/pdf
+
+< ./sample.pdf
+--boundary--

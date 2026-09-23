@@ -1,0 +1,77 @@
+### Decide a CHED in the TRACES NT simulator.
+#
+# The original TRACES submission restated the entire 300-line certificate to add a decision, because
+# the SOAP operation takes a whole document. Here the decision is the decision: a PATCH carrying the
+# clearance block and the new status, merged into what is already stored.
+#
+# That is what the code-keyed objects are for. Clauses merge key by key, so amending one check result
+# later is another two-line patch rather than a rewrite.
+#
+# Run 1.submitForDecision.http first.
+
+@simulator = http://localhost:8085
+@chedId = CHEDA.XI.2026.0000047
+
+# @name signDecision
+PATCH {{simulator}}/control/cheds/{{chedId}}
+Content-Type: application/json
+
+{
+  "status": "VALIDATED",
+  "exchangedDocument": {
+    "clearance": {
+      "actualDateTime": "2026-04-23T10:00:00+01:00",
+      "includedClause": {
+        "DECISION_CONCLUSION": "ACCEPTABLE_FOR_FREE_CIRCULATION",
+        "DOCUMENTARY_CHECK": "YES",
+        "DOCUMENTARY_CHECK_RESULT": "SATISFACTORY",
+        "IDENTITY_CHECK": "YES",
+        "IDENTITY_CHECK_RESULT": "SATISFACTORY",
+        "PHYSICAL_CHECK": "YES",
+        "PHYSICAL_CHECK_RESULT": "SATISFACTORY"
+      }
+    }
+  }
+}
+
+### Amend one result without resending the decision.
+
+# @name amendPhysicalCheck
+PATCH {{simulator}}/control/cheds/{{chedId}}
+Content-Type: application/json
+
+{
+  "exchangedDocument": {
+    "clearance": {
+      "includedClause": {
+        "PHYSICAL_CHECK_RESULT": "NOT_SATISFACTORY"
+      }
+    }
+  }
+}
+
+### A refusal instead, for the not-acceptable path.
+#
+# Refusal reasons and the measure taken ride as document notes rather than decision clauses.
+
+# @name refuse
+PATCH {{simulator}}/control/cheds/{{chedId}}
+Content-Type: application/json
+
+{
+  "status": "REJECTED",
+  "exchangedDocument": {
+    "includedNote": {
+      "NOT_ACCEPTABLE_MEASURE": "DESTRUCTION",
+      "REFUSAL_REASON": "MISSING_CERTIFICATE"
+    },
+    "clearance": {
+      "includedClause": {
+        "DECISION_CONCLUSION": "NOT_ACCEPTABLE",
+        "DOCUMENTARY_CHECK_RESULT": "NOT_SATISFACTORY",
+        "IDENTITY_CHECK_RESULT": "NOT_SATISFACTORY",
+        "PHYSICAL_CHECK_RESULT": "NOT_SATISFACTORY"
+      }
+    }
+  }
+}

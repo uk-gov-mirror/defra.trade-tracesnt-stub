@@ -1,0 +1,4 @@
+@api_HostAddress = http://localhost:5000
+@chedId = CHEDA.XI.2026.0000047
+
+PUT {{api_HostAddress}}/ched/{{chedId}}/trade-imports

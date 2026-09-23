@@ -1,0 +1,130 @@
+### Create a CHED in the TRACES NT simulator.
+#
+# The same consignment as the TRACES submission this replaced, sent to the simulator's control API
+# instead of as a SOAP envelope. The client states everything a submitter states; the simulator fills
+# in only what TRACES fills in — display names, registry lookups and schema scaffolding. Nothing is
+# defaulted on your behalf, so this request is the certificate.
+#
+# Read it back with getChedCertificate on /ChedCertificateServiceV2.
+
+@simulator = http://localhost:8085
+
+# @name createChed
+POST {{simulator}}/control/cheds
+Content-Type: application/json
+
+{
+  "id": "CHEDA.XI.2026.0000047",
+  "status": "NEW",
+
+  "exchangedDocument": {
+    "includedNote": {
+      "CHED_TYPE": "A"
+    },
+    "declaration": {
+      "actualDateTime": "2026-04-21T11:00:00+01:00",
+      "includedClause": {
+        "PURPOSE": "FREE_CIRCULATION",
+        "GOODS_CERTIFIED_AS": "FATTENING"
+      }
+    },
+    "referenceDocument": [
+      {
+        "documentTypeCode": "636",
+        "relationshipTypeCode": "ZZZ",
+        "identifier": "123456",
+        "issuingCountry": "GB"
+      }
+    ]
+  },
+
+  "specifiedConsignment": {
+    "availabilityDueDateTime": "2026-04-23T00:00:00+01:00",
+    "exportCountry": "AF",
+    "importCountry": "XI",
+
+    "consignorParty": {
+      "identifier": "899361",
+      "postalAddress": {
+        "countryId": "XI",
+        "postcodeCode": "BT9",
+        "lineOne": "Test Street 876",
+        "cityName": "Belfast",
+        "countrySubDivisionName": "County Antrim"
+      }
+    },
+    "consigneeParty": {
+      "identifier": "899361",
+      "postalAddress": {
+        "countryId": "XI",
+        "postcodeCode": "BT9",
+        "lineOne": "Test Street 876",
+        "cityName": "Belfast",
+        "countrySubDivisionName": "County Antrim"
+      }
+    },
+    "deliveryParty": {
+      "identifier": "899361",
+      "postalAddress": { "countryId": "XI", "cityName": "Belfast" }
+    },
+    "customsTransitAgentParty": {
+      "name": "TEST",
+      "postalAddress": {
+        "countryId": "XI",
+        "postcodeCode": "BT9",
+        "lineOne": "Handelskade 1",
+        "cityName": "Belfast"
+      }
+    },
+
+    "unloadingBaseportLocation": {
+      "identifier": "GBBEL",
+      "countryId": "XI"
+    },
+    "mainCarriageLogisticsTransportMovement": {
+      "modeCode": "3",
+      "identifier": "GH 2357",
+      "schemeId": "road_vehicle_registration_before_bcp"
+    },
+
+    "includedConsignmentItem": {
+      "natureIdCargo": "12",
+      "consignmentTotals": {
+        "grossWeight": { "value": 50, "unitCode": "KGM" },
+        "physicalReferencedLogisticsPackage": { "typeCode": "NA", "itemQuantity": 0 }
+      },
+      "includedTradeLineItem": [
+        {
+          "applicableClassification": {
+            "CN": "0101",
+            "IDENTIFICATION_SYSTEM": "TATTOO"
+          },
+          "originCountry": "AF",
+          "scientificName": "Bison",
+          "netWeight": { "value": 900, "unitCode": "KGM" },
+          "physicalReferencedLogisticsPackage": { "typeCode": "BX", "itemQuantity": 1 },
+          "additionalInformationNote": {
+            "INDIVIDUAL_IDENTIFICATION_NUMBER": "BOB"
+          }
+        }
+      ]
+    }
+  }
+}
+
+### Notes on the two halves of the boundary.
+#
+# customsTransitAgentParty has a name and no identifier. That is how TRACES models an operator
+# created on the fly, and it is the way past the registry when a test needs an operator nobody has
+# seeded. The other three parties give an identifier and let the simulator resolve the name.
+#
+# What the simulator adds, visible once you retrieve it:
+#
+#   exchangedDocument.name     "CHED-A - Common Health Entry Document for Animal"
+#   IssuerSPSParty             the whole subtree, resolved from the border control post
+#   party names                from the operator registry
+#   party roleCode             EX / CN / DP / CB — fixed by the slot, not by the operator
+#   baseport names             five more beyond the country code you sent
+#   CN 0101                    expands to its full description hierarchy
+#   every clause               gains its display text beside the code
+#   every code                 gains name= / listName= / schemeName=
